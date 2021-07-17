@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebApplication2.Models.SinhVien>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LopHoc.LopHocName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SinhName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SinhVienEmail)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LopHoc.LopHocName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SinhName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SinhVienEmail)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SinhVienId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SinhVienId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SinhVienId })
+        </td>
+    </tr>
+}
+
+</table>

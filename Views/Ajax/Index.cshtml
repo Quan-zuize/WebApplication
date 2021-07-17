@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<script>
+    function getData() {
+        var myurl = "https://localhost:44373/Ajax/getStudent";
+        myurl = "/Ajax/getStudent";
+        $.getJSON(myurl, function (i) {
+            alert(i);
+            $('#stage').html('<p> Name: ' + i.name + '</p>');
+            $('#stage').append('<p> Age: ' + i.age + '</p>');
+        });
+    }
+</script>
+
+<h2>View Page</h2>
+
+<div id="stage" style="background-color:aqua">
+    <span>Get data in here</span>
+</div>
+<button onclick="getData()">GetData</button>
+

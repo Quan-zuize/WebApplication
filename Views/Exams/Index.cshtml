@@ -1,0 +1,77 @@
+﻿@model IEnumerable<WebApplication2.Models.Exam>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#AlertBox').removeClass('hide');
+            $('#AlertBox').delay(5000).slideUp(500);
+        });
+    </script>
+}
+
+@if (TempData["AlertMessage"] != null)
+{
+    <h2 id="AlertBox" class="alert-success hide" role="alert">
+        @TempData["AlertMessage"]
+    </h2>
+}
+
+@using (Html.BeginForm("Index", "Exams", FormMethod.Get))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <p> Search Option: </p>
+    @Html.RadioButton("option", "pass") <text> Pass </text>
+    @Html.RadioButton("option", "fail") <text> Fail </text>
+    @Html.RadioButton("option", "all", true) <text> Fail </text>
+    <select name="subject">
+        <option value="0">Chọn Môn học</option>
+        @foreach (var item in Model.GroupBy(m => m.Subjects.SubjectName).Select(g => g.First()))
+        {
+            <option id="@Html.DisplayFor(m => item.Subjects.SubjectName)" value="@Html.DisplayFor(model => item.Subjects.SubjectName)"> @Html.DisplayFor(model => item.Subjects.SubjectName)</option>
+        }
+    </select>
+    @Html.TextBox("search", "")
+
+    <input type="submit" name="submit" value="Search" />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Students.StudentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subjects.SubjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Students.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subjects.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mark)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ExamId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ExamId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ExamId })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

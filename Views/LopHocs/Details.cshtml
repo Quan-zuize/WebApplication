@@ -1,0 +1,27 @@
+﻿@model WebApplication2.Models.LopHoc
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LopHoc</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LopHocName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LopHocName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LopHocId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

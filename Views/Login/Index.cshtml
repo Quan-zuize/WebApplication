@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@section scripts{
+    <script>
+        $(function () {
+            $('#AlertBox').removeClass('hide');
+            $('#AlertBox').delay(5000).slideUp(500);
+        });
+    </script>
+}
+
+@if (TempData["Mes"] != null)
+{
+    <h2 id="AlertBox" class="alert @TempData["AlertType"] hide" role="alert">
+        @TempData["Mes"]
+    </h2>
+}
+<br />
+@foreach (var m in ViewBag.List)
+{
+    @m.ToString();
+    <br />
+}
+<p>
+    @Html.ActionLink("Login", "Create")
+</p>
+
+

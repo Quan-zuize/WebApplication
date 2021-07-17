@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "Login", FormMethod.Get))
+{
+    <b>Login Option</b>
+    <p>Name: </p> @Html.TextBox("user")
+    <br />
+    <p>Password: </p> @Html.TextBox("pass")
+    <br />
+    <input type="submit" name="submit" value="submit" />
+}
+
+
+
+
