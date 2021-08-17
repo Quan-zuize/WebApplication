@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -31,7 +27,7 @@ namespace WebApplication2.Controllers
             string ptinh = t.operation;
             switch (ptinh)
             {
-                case "Cộng":    
+                case "Cộng":
                     kq = so1 + so2;
                     break;
                 case "Trừ":

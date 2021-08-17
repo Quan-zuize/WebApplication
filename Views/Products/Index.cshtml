@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WebApplication2.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.productName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.productPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.productLinkImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.productComment)
+        </th>
+        <th></th>
+    </tr>*@
+
+@foreach (var item in Model)
+{
+    @*<tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.productName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productLinkImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productComment)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.productID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.productID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.productID })
+            </td>
+        </tr>*@
+    <div class="col-xs-3 col-sm-3 col-md-3">
+        <div class="img-thumbnail">
+            <div style="height: 60px;width: 250px; background-color: rgb(251, 255, 241);"><p style="text-align: center;">@Url.Content(item.productName)</p></div>
+            <img src="@Url.Content(item.productLinkImage)" alt="Image" height="50" width="50" />
+            <div style="height: 30px;width: 250px; background-color: rgb(251, 255, 241);">
+                <table style="border-collapse:separate; border-spacing: 10px;" width="100%">
+                    <tr>
+                        <th width="60%">@Url.Content(item.productPrice.ToString()) VNĐ</th>
+                        <th width="40%"><a href="" style="margin-left: 100px;">Add to cart</a></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+@*</table>*@

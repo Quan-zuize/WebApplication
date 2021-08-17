@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<br />
+@using (Html.BeginForm("Index", "TamGiac", FormMethod.Get))
+{
+    <h4>Cạnh thứ nhất:</h4>
+    <input type="number" name="canh1" id="first" />
+    <br />
+    <h4>Cạnh thứ hai:</h4>
+    <input type="number" name="canh2" id="second" />
+    <br />
+    <h4>Cạnh thứ ba:</h4>
+    <input type="number" name="canh3" id="third" />
+    <br />
+    <br />
+    <input type="submit" value="Submit" id="submit" onclick="myfunction()" />
+}
+
+<script type="text/javascript">
+    alert("Saved Successfully");
+    function myfunction() {
+        var canh1 = parseFloat($("#first").val());
+        var canh2 = parseFloat($("#second").val());
+        var canh3 = parseFloat($("#third").val());
+        if (canh1 + canh2 > canh3 && canh1 + canh3 > canh2 && canh2 + canh3 > canh1) {
+            $.ajax({
+                type: "post",
+                data: {
+                    "canh1": canh1, "canh2": canh2, "canh3": canh3
+                },
+                url: "/TamGiac/insertdata",
+                success: function (data) {
+                    alert(data + "\nSaved Successfully");
+                },
+                error: function (data) {
+                    alert("Error Occured, Try Again");
+                }
+            });
+        } else {
+            alert("Pleae try again");
+            return false;
+        }
+    }
+</script>
+

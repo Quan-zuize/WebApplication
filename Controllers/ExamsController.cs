@@ -1,10 +1,10 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
 
@@ -15,38 +15,41 @@ namespace WebApplication2.Controllers
         private School_Context db = new School_Context();
         // GET: Exams
 
-        public ActionResult Index(string option, string search, string subject)
+        public ActionResult Index(string option, string search, string subject, int? Page_No)
         {
-            string subjectItem = "";
-            if (option == "StudentName")
-            {  
-                //Index action method will return a view with a student records based on what a user specify the value in textbox
-                return View(db.Exams.Where(X => X.Students.StudentName == search || search == null).ToList());
+            var exams = from a in db.Exams
+                        join b in db.Students on a.StudentId equals b.StudentId
+                        join c in db.Subjects on a.SubjectId equals c.SubjectId
+                        select a;
+
+            var subjectQry = from d in db.Subjects orderby d.SubjectId select d.SubjectName;
+            var subjectList = new List<String>();
+            subjectList.AddRange(subjectQry.Distinct());
+            ViewBag.subject = new SelectList(subjectList);
+
+            if (!String.IsNullOrEmpty(subject)){
+                exams = exams.Where(a => a.Subjects.SubjectName.Equals(subject));
             }
-            foreach (var item in db.Exams.GroupBy(m => m.Subjects.SubjectName).Select(g => g.FirstOrDefault()))
+
+            if (!String.IsNullOrEmpty(search))
             {
-                if (subject == item.Subjects.SubjectName)
-                {
-                    subjectItem = item.Subjects.SubjectName;
+                exams = exams.Where(a => a.Students.StudentName.Contains(search));
+            }
+
+            switch (option)
+            {
+                case "pass":
+                    exams = exams.Where(X => X.Mark >= 40 );
                     break;
-                    //Index action method will return a view with a student records based on what a user specify the value in textbox
-                    //return View(db.Exams.Where(X => X.Subjects.SubjectName == item.Subjects.SubjectName || search == null).ToList());
-                }
+                case "fail":
+                    exams = exams.Where(X => X.Mark < 40);
+                    break;
+                default:
+                    break;
             }
-            if (option == "pass" )
-            {
-                if(search.Equals("")&& !subject.Equals(""))
-                {
-                    return View(db.Exams.Where(X => X.Mark >= 40 && X.Subjects.SubjectName.Equals(subject)).ToList());
-                }
-                
-            }
-            else if (option == "fail")
-            {
-                return View(db.Exams.Where(X => X.Mark <= 40).ToList());
-            }
-            //var exams = db.Exams.Include(e => e.Student).Include(e => e.Subject);
-            return View(db.Exams.ToList());
+            int Page_Size = 4;
+            int No_Of_Page = (Page_No ?? 1);
+            return View(exams.ToPagedList(No_Of_Page, Page_Size));
         }
 
         // GET: Exams/Details/5
@@ -146,6 +149,7 @@ namespace WebApplication2.Controllers
         // POST: Exams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
         public ActionResult DeleteConfirmed(int id)
         {
             Exam exam = db.Exams.Find(id);

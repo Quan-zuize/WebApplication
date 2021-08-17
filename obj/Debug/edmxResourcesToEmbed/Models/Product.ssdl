@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuanLySanPhamModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'QuanLySanPham.dbo.Product' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="productID" />
+      <PropertyRef Name="productName" />
+      <PropertyRef Name="productPrice" />
+      <PropertyRef Name="productLinkImage" />
+    </Key>
+    <Property Name="productID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="productPrice" Type="float" Nullable="false" />
+    <Property Name="productLinkImage" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="productComment" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityContainer Name="QuanLySanPhamModelStoreContainer">
+    <EntitySet Name="Product" EntityType="Self.Product" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Product].[productID] AS [productID], 
+    [Product].[productName] AS [productName], 
+    [Product].[productPrice] AS [productPrice], 
+    [Product].[productLinkImage] AS [productLinkImage], 
+    [Product].[productComment] AS [productComment]
+    FROM [dbo].[Product] AS [Product]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

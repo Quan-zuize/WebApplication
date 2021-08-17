@@ -1,0 +1,120 @@
+﻿@model  PagedList.IPagedList<WebApplication2.Models.AssignTask>
+@*@model  IEnumerable<WebApplication2.Models.AssignTask>*@
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<style>
+    table tr td {
+        border: 2px solid black;
+        text-align: center;
+        word-wrap: break-word;
+    }
+
+    table tr:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    table tr th {
+        border: 2px solid black;
+        text-align: center;
+        background-color: #fff;
+        color: #000;
+    }
+</style>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "AssignTasks", FormMethod.Get))
+{
+    <p>
+        Search: @Html.TextBox("search")
+
+        <select name="department">
+            <option value="">Employee's department</option>
+            @foreach (var item in Model.GroupBy(i => i.Employee.EmployeeDepartment).Select(g => g.First()))
+            {
+                <option id="@Html.DisplayFor(i => item.Employee.EmployeeDepartment)" value="@Html.DisplayFor(model => item.Employee.EmployeeDepartment)">@Html.DisplayFor(i => item.Employee.EmployeeDepartment)</option>
+            }
+        </select>
+        <select name="company">
+            <option value="">Client's company</option>
+            @foreach (var item in Model.GroupBy(i => i.Client.ClientCompany).Select(g => g.First()))
+            {
+                <option id="@Html.DisplayFor(i => item.Client.ClientCompany)" value="@Html.DisplayFor(model => item.Client.ClientCompany)">@Html.DisplayFor(i => item.Client.ClientCompany)</option>
+            }
+        </select>
+        @*Department: @Html.DropDownList("department", "Employee's department")
+            Company: @Html.DropDownList("company", "Client's company")*@
+
+        <select name="status">
+            <option value="0">Project progress</option>
+            <option value="Done">Đã hoàn thành</option>
+            <option value="Notyet">Chưa hoàn thành</option>
+        </select>
+    </p>
+    <input type="submit" value="Find" />
+    <br />
+    <br />
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Client Name", "Index", new { SortOrder = "ClientName" })
+                <a><i class="fas fa-caret-down"></i></a>
+
+            </th>
+            <th>
+                @Html.ActionLink("Employee Name", "Index", new { SortOrder = "EmployeeName" })
+                <a><i class="fas fa-caret-down"></i></a>
+            </th>
+            <th>
+                @Html.ActionLink("Project Name", "Index", new { SortOrder = "ProjectName" })
+                <a><i class="fas fa-caret-down"></i></a>
+            </th>
+            <th>
+                Task
+            </th>
+            <th>
+                Note
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Task)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.AssignTaskId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.AssignTaskId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AssignTaskId })
+                </td>
+            </tr>
+        }
+    </table>
+    <div id='Paging' style="text-align:center">
+        Page: @(Model.PageCount < Model.PageNumber ? 0 :Model.PageNumber)
+        of @Model.PageCount
+        @Html.PagedListPager(Model, Page_No => Url.Action("Index", new { Page_No }))
+    </div>
+}

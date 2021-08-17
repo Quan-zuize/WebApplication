@@ -1,5 +1,5 @@
-﻿@model IEnumerable<WebApplication2.Models.Exam>
-
+﻿@model PagedList.IPagedList<WebApplication2.Models.Exam>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
 }
@@ -28,27 +28,31 @@
     <p> Search Option: </p>
     @Html.RadioButton("option", "pass") <text> Pass </text>
     @Html.RadioButton("option", "fail") <text> Fail </text>
-    @Html.RadioButton("option", "all", true) <text> Fail </text>
-    <select name="subject">
-        <option value="0">Chọn Môn học</option>
-        @foreach (var item in Model.GroupBy(m => m.Subjects.SubjectName).Select(g => g.First()))
-        {
-            <option id="@Html.DisplayFor(m => item.Subjects.SubjectName)" value="@Html.DisplayFor(model => item.Subjects.SubjectName)"> @Html.DisplayFor(model => item.Subjects.SubjectName)</option>
-        }
-    </select>
+    @Html.RadioButton("option", "all", true) <text> All </text>
+    @*<select name="subject">
+            <option value="0">Chọn Môn học</option>
+            @foreach (var item in Model.GroupBy(m => m.Subjects.SubjectName).Select(g => g.First()))
+            {
+                <option id="@Html.DisplayFor(m => item.Subjects.SubjectName)" value="@Html.DisplayFor(model => item.Subjects.SubjectName)"> @Html.DisplayFor(model => item.Subjects.SubjectName)</option>
+            }
+        </select>*@
+    @Html.DropDownList("subject", "Chọn môn học");
     @Html.TextBox("search", "")
 
     <input type="submit" name="submit" value="Search" />
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Students.StudentName)
+                @*@Html.DisplayNameFor(model => model.Students.StudentName)*@
+                StudentName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Subjects.SubjectName)
+                @*@Html.DisplayNameFor(model => model.Subjects.SubjectName)*@
+                SubjectName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mark)
+                @*@Html.DisplayNameFor(model => model.Mark)*@
+                Mark
             </th>
             <th></th>
         </tr>
@@ -74,4 +78,10 @@
         }
 
     </table>
+    <div id='Paging' style="text-align:center">
+        Page: @(Model.PageCount < Model.PageNumber ? 0 :Model.PageNumber)
+        of @Model.PageCount @Html.PagedListPager(Model, Page_No
+=> Url.Action("Index", new { Page_No }))
+    </div>
 }
+

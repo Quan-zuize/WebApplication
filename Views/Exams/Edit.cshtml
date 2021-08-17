@@ -42,7 +42,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="button" value="Save" class="btn btn-default" onclick="edit()"/>
             </div>
         </div>
     </div>
@@ -51,3 +51,20 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    function edit() {
+        var stdId = document.getElementById('StudentId').value;
+        var sbId = document.getElementById('SubjectId').value;
+        var mark = document.getElementById('Mark').value;
+
+        if (mark != "") {
+            $.post("/Exams/Edit", { "StudentId": stdId, "SubjectId": sbId, "Mark": mark })
+                .done(function (data) {
+                    alert(data + "Edit Successfully")
+                })
+        } else {
+            alert("Mark is required!");
+        }
+    }
+</script>

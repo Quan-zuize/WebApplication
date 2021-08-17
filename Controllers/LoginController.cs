@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace WebApplication2.Controllers
@@ -42,7 +39,7 @@ namespace WebApplication2.Controllers
                 //con.Open();
                 //exec.Parameters.AddWithValue("@username", uName);
                 //exec.Parameters.AddWithValue("@userpass", uPass);
-                
+
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, con);
                 DataTable dt = new DataTable();

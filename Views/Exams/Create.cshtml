@@ -40,7 +40,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" onclick="insert()"/>
             </div>
         </div>
     </div>
@@ -49,3 +49,20 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    function insert() {
+        var stdId = document.getElementById('StudentId').value;
+        var sbId = document.getElementById('SubjectId').value;
+        var mark = document.getElementById('Mark').value;
+
+        if (mark != "") {
+            $.post("/Exams/Create", { "StudentId ": stdId, "SubjectId": sbId, "Mark": mark })
+                .done(function (data) {
+                    alert(data + "Add Successfully");
+                })
+        } else {
+            alert("Mark is required!");
+        }
+    }
+</script>
